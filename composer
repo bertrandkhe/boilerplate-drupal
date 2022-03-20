@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -eux;
-
 if [ ! -d "$HOME/.composer2" ]; then
   mkdir -p "$HOME/.composer2"
 fi
@@ -13,10 +11,7 @@ if [ "$DRUPAL_STATE" != "Up" ]; then
   exit 1;
 fi
 
-# docker-compose \
-#   -f docker-compose.yml \
-#   -f docker-compose.development.yml \
-#   run --rm \
-#   -v $(pwd)/src:/opt/drupal \
-#   -u www-data \
-#   drupal composer $*
+docker-compose \
+  -f docker-compose.yml \
+  -f docker-compose.development.yml \
+  exec drupal composer $*
