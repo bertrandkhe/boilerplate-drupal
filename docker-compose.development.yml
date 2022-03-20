@@ -1,0 +1,16 @@
+version: "2.3"
+services:
+  drupal:
+    restart: "no"
+    volumes:
+      - ./src:/opt/drupal
+      - ./docker/drupal/etc/php.ini-development:/usr/local/etc/php/php.ini
+      - $HOME/.composer2:/home/www-data/.composer
+  nginx:
+    restart: "no"
+    volumes:
+      - ./docker/nginx/etc/templates:/etc/nginx/templates
+  mysql:
+    restart: "no"
+  redis:
+    restart: "no"

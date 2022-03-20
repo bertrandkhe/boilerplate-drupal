@@ -1,0 +1,45 @@
+version: "2.3"
+services:
+  drupal:
+    build:
+      dockerfile: ./docker/drupal/Dockerfile
+      context: ./
+      args:
+        - ENVIRONMENT=${ENVIRONMENT}
+        - WWW_UID=${WWW_UID}
+        - WWW_GID=${WWW_GID}
+    env_file: .env
+    restart: always
+    user: $WWW_UID
+    volumes:
+      - ./storage/files:/opt/drupal/web/sites/default/files
+    depends_on:
+      - mysql
+      - redis
+  nginx:
+    build:
+      dockerfile: ./docker/nginx/Dockerfile
+      context: ./
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "$PORT:$PORT"
+    volumes:
+      - ./storage/nginx:/var/cache/nginx
+    volumes_from:
+      - drupal:ro
+    depends_on:
+      - drupal
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password --disable-log-bin
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+

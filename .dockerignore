@@ -1,0 +1,4 @@
+./src/vendor/
+./src/web/core/
+./src/web/modules/contrib/
+./src/web/themes/contrib/

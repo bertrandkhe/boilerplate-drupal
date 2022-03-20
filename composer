@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -eux;
+
+if [ ! -d "$HOME/.composer2" ]; then
+  mkdir -p "$HOME/.composer2"
+fi
+
+DRUPAL_STATE="$(docker-compose ps drupal|grep drupal|sed 's/[[:blank:]]\{2,\}/%/g'|cut -d '%' -f 3)"
+
+if [ "$DRUPAL_STATE" != "Up" ]; then
+  echo "Drupal is not Up. Please start the project first."
+  exit 1;
+fi
+
+# docker-compose \
+#   -f docker-compose.yml \
+#   -f docker-compose.development.yml \
+#   run --rm \
+#   -v $(pwd)/src:/opt/drupal \
+#   -u www-data \
+#   drupal composer $*

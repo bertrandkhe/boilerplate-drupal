@@ -1,0 +1,15 @@
+header_filter_by_lua_block {
+  if ngx.var.origin == nil then
+    return
+  end
+  local allowed_origins = "$ALLOWED_ORIGINS"
+  for origin in string.gmatch(allowed_origins, "[^%s]+") do
+    if ngx.var.origin == origin then
+      ngx.log(ngx.ERR, 'Origin: ', ngx.var.origin)
+      ngx.header['access_control_allow_origin'] = origin
+      ngx.header['access_control_allow_methods'] = 'POST, GET, OPTIONS'
+      ngx.header['access_control_max_age'] = '600'
+      break
+    end
+  end
+}

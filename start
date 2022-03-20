@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -eux
+
+if [ ! -f .env ]; then
+  echo "Missing .env file. Please create the .env file."
+fi
+
+ENVIRONMENT="$(grep ENVIRONMENT .env|cut -f 2 -d "=")"
+echo $ENVIRONMENT
+CMD="docker-compose -f docker-compose.yml"
+
+case "$ENVIRONMENT" in
+  "development")
+    CMD="$CMD -f docker-compose.development.yml"
+    echo $CMD
+    ;;
+  
+  "production")
+    ;;
+  
+  *)
+    echo "Unsupported environment: $ENVIRONMENT"
+    exit 1;
+    ;;
+esac
+
+mkdir -p ./storage/files \
+  ./storage/mysql \
+  ./storage/logs \
+  ./storage/nginx \
+  ./src/config_files \
+  ./src/web/modules/custom \
+  ./src/web/themes/custom
+
+# Drupal is not installed
+if [ 10 -gt $(ls src/config_files|wc -l) ]; then
+  ./scripts/install.sh
+fi
+
+CMD="$CMD up"
+$CMD
