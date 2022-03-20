@@ -28,6 +28,7 @@
         "drupal/redirect": "^1.7",
         "drupal/redis": "^1.5",
         "drupal/simple_sitemap": "^4.1",
+        "drupal/symfony_debug": "^2.0",
         "drush/drush": "^11.0",
         "illuminate/collections": "^9.3",
         "nesbot/carbon": "^2.57"
@@ -35,7 +36,7 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "sort-packages": true,

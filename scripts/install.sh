@@ -6,6 +6,7 @@ docker-compose -f docker-compose.yml -f docker-compose.development.yml start
 docker-compose exec drupal composer require -vvv \
   drush/drush \
   drupal/devel \
+  drupal/symfony_debug \
   drupal/config_ignore \
   drupal/redis \
   drupal/field_group \
@@ -32,6 +33,7 @@ docker-compose exec drupal php vendor/bin/drush site:install \
 docker-compose exec drupal php vendor/bin/drush en \
   --no-interaction \
   devel \
+  symfony_debug \
   config_ignore \
   field_group \
   pathauto \
